@@ -12,3 +12,7 @@ def ordenar_lista(lista_no_ordenada: List[int]):
         "hora_sistema": hora_actual,
         "lista_ordenada": lista_ordenada
     }
+
+@app.get("/healthcheck")
+def healthcheck():
+    return {"response": "OK"}

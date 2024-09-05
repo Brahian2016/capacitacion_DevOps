@@ -11,6 +11,7 @@ app = FastAPI()
 def ordenar_lista(
     lista_no_ordenada: List[int] = Query(
         ..., description="Lista de números no ordenados que se desea ordenar"
+        , alias="lista-no-ordenada"
     )
 ) -> JSONResponse:
     """

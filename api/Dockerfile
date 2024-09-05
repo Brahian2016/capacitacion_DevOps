@@ -8,7 +8,7 @@ WORKDIR /opt/python-api/
 
 # Copia el archivo requirements.txt desde el host al contenedor.
 # Este archivo contiene las dependencias necesarias para la aplicación.
-COPY api/requirements.txt .
+COPY requirements.txt .
 
 # Ejecuta la instalación de las dependencias listadas en requirements.txt.
 # Se usa --no-cache-dir para evitar guardar cachés de paquetes y reducir el tamaño de la imagen final.
@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia el archivo principal de la API FastAPI (main.py) desde el host al contenedor.
 # Este archivo contiene la lógica del servidor.
-COPY api/main.py .
+COPY main.py .
 
 # Expone el puerto 8000, que es el puerto por defecto donde FastAPI sirve la aplicación.
 # Esto permite acceder a la API desde fuera del contenedor.

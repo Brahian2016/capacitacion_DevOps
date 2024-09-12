@@ -1,18 +1,6 @@
-# FastAPI Python API
+# Capacitación DevOps
 
 Esta es una aplicación web construida con FastAPI que proporciona un endpoint para ordenar una lista de números enteros y un endpoint de verificación de estado.
-
-## Requisitos
-
-- Docker
-
-## Estructura del Proyecto
-
-/project-root
-- Dockerfile
-- main.py
-- requirements.txt
-
 
 ## Instalación
 
@@ -63,8 +51,9 @@ Puedes probar la API utilizando `curl` o cualquier herramienta para realizar pet
 
 ```bash
 curl "http://localhost:8000/lista-ordenada?lista-no-ordenada=3&lista-no-ordenada=1&lista-no-ordenada=2"
-
+```
 
 ### 2. Verificación de estado
 ```bash
 curl "http://localhost:8000/healthcheck"
+```

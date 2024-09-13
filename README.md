@@ -6,25 +6,30 @@ Esta es una aplicación web construida con **FastAPI** que proporciona un endpoi
 
 Para construir y ejecutar la aplicación, sigue estos pasos:
 
-**1. Crear la red para MongoDB**:
+**1. Ingresar al modulo de la aplicación**:
+```bash
+cd api
+```
+
+**2. Crear la red para MongoDB**:
 
 ```bash
 docker network create mongodb-net
 ```
 
-**2. Correr MongoDB en un contenedor**:
+**3. Correr MongoDB en un contenedor**:
 
 ```bash
 docker run -d --name mongodb --network mongodb-net -p 27017:27017 mongo:latest
 ```
 
-**3. Construir la imagen Docker para la API**:
+**4. Construir la imagen Docker para la API**:
 
 ```bash
 docker build -t python-api .
 ```
 
-**4. Correr el contenedor de la API con MongoDB**:
+**5. Correr el contenedor de la API con MongoDB**:
 
 ```bash
 docker run -d --name python-api --network mongodb-net -e MONGODB_HOST=mongodb -e MONGODB_PORT=27017 -p 8000:8000 python-api

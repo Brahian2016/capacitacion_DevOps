@@ -8,8 +8,10 @@ class Document:
         lista_no_ordenada (list): Lista que no está ordenada.
         lista_ordenada (list): Lista que está ordenada.
     """
-    
-    def __init__(self, id: str, hora_sistema: str, lista_no_ordenada: list, lista_ordenada: list):
+
+    def __init__(
+        self, id: str, hora_sistema: str, lista_no_ordenada: list, lista_ordenada: list
+    ):
         """
         Inicializa una instancia de la clase Document.
 
@@ -35,5 +37,5 @@ class Document:
             "id": self.id,
             "hora_sistema": self.hora_sistema,
             "lista_no_ordenada": self.lista_no_ordenada,
-            "lista_ordenada": self.lista_ordenada
+            "lista_ordenada": self.lista_ordenada,
         }

@@ -6,6 +6,7 @@ para configurar el host y el puerto, además de manejar los errores de conexión
 # Importaciones de librerías estándar
 import os
 import logging
+from functools import lru_cache
 
 # Importaciones de librerías externas
 from pymongo import MongoClient
@@ -22,18 +23,32 @@ MONGODB_PORT = os.getenv("MONGODB_PORT", "27017")
 client = None
 collection = None
 
-def connect_to_mongo():
+@lru_cache()
+def get_mongo_client():
     """
-    Establece una conexión con la base de datos MongoDB utilizando los valores 
+    Establece y retorna una conexión con la base de datos MongoDB utilizando los valores 
     de las variables de entorno MONGODB_HOST y MONGODB_PORT. 
     Si la conexión falla, lanza un HTTPException.
+    
+    Retorna:
+    - Cliente de MongoDB.
+    """
+    try:
+        return MongoClient(f'mongodb://{MONGODB_HOST}:{MONGODB_PORT}/')
+    except Exception as e:
+        logger.error(f"Error al conectar a MongoDB: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error al conectar a la base de datos")
 
+def connect_to_mongo():
+    """
+    Obtiene la conexión activa a la base de datos y asigna la colección `listas_no_ordenadas`.
+    
     Retorna:
     - Conexión activa a la base de datos y asigna la colección `listas_no_ordenadas`.
     """
     global client, collection
     try:
-        client = MongoClient(f'mongodb://{MONGODB_HOST}:{MONGODB_PORT}/')
+        client = get_mongo_client()
         db = client.python_app
         collection = db.listas_no_ordenadas
         logger.info("Conexión a MongoDB exitosa")

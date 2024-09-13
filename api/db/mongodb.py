@@ -1,57 +1,45 @@
 """
-Este módulo se encarga de la conexión a una base de datos MongoDB, utilizando variables de entorno 
-para configurar el host y el puerto, además de manejar los errores de conexión de manera adecuada.
+Este módulo proporciona funciones para conectarse a MongoDB y acceder a la base de datos y colecciones necesarias.
+
+Funciones:
+- get_mongo_client: Obtiene una instancia de MongoClient.
+- get_db: Obtiene la base de datos 'python_app'.
+- get_collection: Obtiene la colección 'listas_no_ordenadas' de la base de datos.
 """
 
-# Importaciones de librerías estándar
-import os
-import logging
-from functools import lru_cache
-
-# Importaciones de librerías externas
 from pymongo import MongoClient
-from fastapi import HTTPException
+import os
 
-# Configuración del logging
-logger = logging.getLogger(__name__)
 
-# Variables de conexión
-MONGODB_HOST = os.getenv("MONGODB_HOST", "localhost")
-MONGODB_PORT = os.getenv("MONGODB_PORT", "27017")
-
-# Inicializar conexión a MongoDB
-client = None
-collection = None
-
-@lru_cache()
-def get_mongo_client():
+def get_mongo_client() -> MongoClient:
     """
-    Establece y retorna una conexión con la base de datos MongoDB utilizando los valores 
-    de las variables de entorno MONGODB_HOST y MONGODB_PORT. 
-    Si la conexión falla, lanza un HTTPException.
-    
-    Retorna:
-    - Cliente de MongoDB.
-    """
-    try:
-        return MongoClient(f'mongodb://{MONGODB_HOST}:{MONGODB_PORT}/')
-    except Exception as e:
-        logger.error(f"Error al conectar a MongoDB: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error al conectar a la base de datos")
+    Obtiene una instancia de MongoClient con la configuración proporcionada a través de variables de entorno.
 
-def connect_to_mongo():
+    Returns:
+        MongoClient: Una instancia de MongoClient configurada con el host y el puerto proporcionados.
     """
-    Obtiene la conexión activa a la base de datos y asigna la colección `listas_no_ordenadas`.
-    
-    Retorna:
-    - Conexión activa a la base de datos y asigna la colección `listas_no_ordenadas`.
+    host = os.getenv("MONGODB_HOST", "localhost")
+    port = int(os.getenv("MONGODB_PORT", 27017))
+    return MongoClient(host, port)
+
+
+def get_db():
     """
-    global client, collection
-    try:
-        client = get_mongo_client()
-        db = client.python_app
-        collection = db.listas_no_ordenadas
-        logger.info("Conexión a MongoDB exitosa")
-    except Exception as e:
-        logger.error(f"Error al conectar a MongoDB: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error al conectar a la base de datos")
+    Obtiene la base de datos 'python_app'.
+
+    Returns:
+        Database: La base de datos 'python_app' en MongoDB.
+    """
+    client = get_mongo_client()
+    return client["python_app"]
+
+
+def get_collection():
+    """
+    Obtiene la colección 'listas_no_ordenadas' de la base de datos.
+
+    Returns:
+        Collection: La colección 'listas_no_ordenadas' de la base de datos 'python_app'.
+    """
+    db = get_db()
+    return db["listas_no_ordenadas"]

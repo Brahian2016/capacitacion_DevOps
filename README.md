@@ -4,12 +4,32 @@ Esta es una aplicación web construida con **FastAPI** que proporciona un endpoi
 
 ## Instalación
 
-Para construir y ejecutar la aplicación, sigue estos pasos:
+Para construir y ejecutar la aplicación hay 2 formas:
+
+### Alternativa 1:
 
 **1. Ingresar al modulo de la aplicación**:
 ```bash
 cd api
 ```
+
+**2. Dar permisos al script de bash**:
+```bash
+chmod +x setup.sh
+```
+
+**2. Ejecutar el script de bash**:
+```bash
+./setup.sh
+```
+
+### Alternativa 2:
+
+**1. Ingresar al modulo de la aplicación**:
+```bash
+cd api
+```
+
 
 **2. Crear la red para MongoDB**:
 

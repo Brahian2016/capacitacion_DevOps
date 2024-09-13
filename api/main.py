@@ -14,15 +14,17 @@ from typing import List
 # Importaciones de librerías externas
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.responses import JSONResponse
+import logging
 
 # Importaciones de módulos internos
-from db.mongodb import connect_to_mongo, collection
+from db.mongodb import get_collection
 from models.document import Document
 
-app = FastAPI()
+# Configuración del logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Conectar a MongoDB
-connect_to_mongo()
+app = FastAPI()
 
 
 @app.get("/lista-ordenada", response_class=JSONResponse)
@@ -48,24 +50,32 @@ def ordenar_lista(
 def guardar_lista_no_ordenada(
     lista_no_ordenada: List[int] = Query(..., alias="lista-no-ordenada")
 ) -> JSONResponse:
-    """
-    Endpoint para guardar una lista no ordenada en la base de datos.
-    """
-    lista_ordenada = sorted(lista_no_ordenada)
-    hora_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    unique_id = str(uuid.uuid4())
+    try:
+        lista_ordenada = sorted(lista_no_ordenada)
+        hora_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        unique_id = str(uuid.uuid4())
 
-    document = Document(
-        id=unique_id,
-        hora_sistema=hora_actual,
-        lista_no_ordenada=lista_no_ordenada,
-        lista_ordenada=lista_ordenada,
-    )
+        # Obtener la colección de MongoDB
+        collection = get_collection()
 
-    collection.insert_one(document.to_dict())
+        # Crear una instancia de Document
+        document = Document(
+            id=unique_id,
+            hora_sistema=hora_actual,
+            lista_no_ordenada=lista_no_ordenada,
+            lista_ordenada=lista_ordenada,
+        )
 
-    response = {"msg": f"La lista ordenada fue guardada con el id: {unique_id}"}
-    return JSONResponse(content=response)
+        if collection is not None:
+            # Insertar el documento en la colección
+            collection.insert_one(document.to_dict())
+            response = {"msg": f"La lista ordenada fue guardada con el id: {unique_id}"}
+        else:
+            response = {"error": "No se pudo conectar a la base de datos"}
+        return JSONResponse(content=response)
+    except Exception as e:
+        logger.error(f"Error al guardar la lista: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error al guardar la lista")
 
 
 @app.get("/healthcheck")

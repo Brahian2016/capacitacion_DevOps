@@ -30,6 +30,14 @@ chmod +x setup.sh
 cd api
 ```
 
+### Alternativa 3: Uso de docker-compose
+La aplicación también puede levantarse usando `docker-compose`, lo que facilita la creación de un entorno completo con la API y MongoDB conectados a través de una red y con volúmenes para la persistencia de datos.
+
+**Levantar los servicios con Docker Compose:**
+```bash
+docker-compose --profile api --profile db up
+```
+
 
 **2. Crear la red para MongoDB**:
 

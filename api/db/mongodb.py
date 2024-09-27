@@ -18,8 +18,8 @@ def get_mongo_client() -> MongoClient:
     Returns:
         MongoClient: Una instancia de MongoClient configurada con el host y el puerto proporcionados.
     """
-    host = os.getenv("MONGODB_HOST", "localhost")
-    port = int(os.getenv("MONGODB_PORT", 27017))
+    host = os.getenv("MONGODB_HOST")
+    port = int(os.getenv("MONGODB_PORT"))
     return MongoClient(host, port)
 
 

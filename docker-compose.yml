@@ -11,9 +11,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - MONGODB_HOST=${MONGODB_HOST}
-      - MONGODB_PORT=${MONGODB_PORT}
-      - TZ=${TZ}
+      - MONGODB_HOST
+      - MONGODB_PORT
+      - TZ
     networks:
       - mongodb-net
     depends_on:

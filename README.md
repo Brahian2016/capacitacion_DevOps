@@ -35,32 +35,7 @@ La aplicación también puede levantarse usando `docker-compose`, lo que facilit
 
 **Levantar los servicios con Docker Compose:**
 ```bash
-docker-compose --profile api --profile db up
-```
-
-
-**2. Crear la red para MongoDB**:
-
-```bash
-docker network create mongodb-net
-```
-
-**3. Correr MongoDB en un contenedor**:
-
-```bash
-docker run -d --name mongodb --network mongodb-net -p 27017:27017 mongo:latest
-```
-
-**4. Construir la imagen Docker para la API**:
-
-```bash
-docker build -t python-api .
-```
-
-**5. Correr el contenedor de la API con MongoDB**:
-
-```bash
-docker run -d --name python-api --network mongodb-net -e MONGODB_HOST=mongodb -e MONGODB_PORT=27017 -p 8000:8000 python-api
+docker-compose --env-file .env.demo --profile api --profile db up -d
 ```
 
 ## Uso de la API

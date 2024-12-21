@@ -4,11 +4,11 @@ import logging
 import requests
 from datetime import datetime
 
-# Configuración del logging
 logging.basicConfig(
-    filename='/opt/monitor/logs/api-monitor.log', 
-    level=logging.INFO, 
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    filename='/opt/api-monitor/logs/api-monitor.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S,%f'
 )
 
 # Variables de entorno

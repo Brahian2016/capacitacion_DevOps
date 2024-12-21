@@ -19,6 +19,7 @@ services:
     restart: always
     profiles:
       - api
+      - back
 
   mongodb:
     container_name: mongodb
@@ -32,6 +33,7 @@ services:
     restart: always
     profiles:
       - db
+      - back
 
   api-monitor:
     image: api-monitor

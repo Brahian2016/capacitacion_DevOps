@@ -1,0 +1,20 @@
+# Usamos la imagen base de Python 3.12 slim
+FROM python:3.12-slim
+
+# Establecemos el directorio de trabajo
+WORKDIR /opt/api-monitor
+
+# Directorios necesarios
+RUN mkdir -p /opt/api-monitor/logs
+
+# Script monitoreo y archivo requirements.txt
+COPY . .
+
+# Instalamos la librería requests para realizar solicitudes HTTP
+RUN pip install --no-cache-dir requests
+
+# Expone el puerto 80.
+EXPOSE 80
+
+# Comando que se ejecuta cuando el contenedor inicia.
+CMD ["/opt/api-monitor/venv/bin/python", "monitoreo_script.py"]
